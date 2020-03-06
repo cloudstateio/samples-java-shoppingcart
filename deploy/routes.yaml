@@ -1,0 +1,20 @@
+# Route for friends app
+apiVersion: cloudstate.io/v1alpha1
+kind: Route
+metadata:
+  name: "shopping-routes"
+spec:
+  http:
+  - name: "shopping-routes"
+    match:
+    - uri:
+        prefix: "/com.example.shoppingcart.ShoppingCart/"
+    route:
+      service: shopping-cart
+  - name: "frontend-routes"
+    match:
+    - uri:
+        prefix: "/"
+    route:
+      service: frontend      
+

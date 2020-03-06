@@ -1,0 +1,156 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:    
+  creationTimestamp: "2020-03-05T19:44:01Z"
+  generation: 1
+  labels:
+    app: shopping-cart
+    app.kubernetes.io/component: user-function
+    app.kubernetes.io/managed-by: cloudstate-operator
+    app.kubernetes.io/name: shopping-cart
+  name: shopping-cart
+  namespace: corey4
+  resourceVersion: "70337111"
+  selfLink: /apis/extensions/v1beta1/namespaces/corey4/deployments/shopping-cart
+  uid: a98a442d-5f19-11ea-9053-4201ac100108
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: user-function
+      app.kubernetes.io/managed-by: cloudstate-operator
+      app.kubernetes.io/name: shopping-cart
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        traffic.sidecar.istio.io/excludeInboundPorts: 2552,8558
+        traffic.sidecar.istio.io/excludeOutboundPorts: 2552,8558
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: user-function
+        app.kubernetes.io/managed-by: cloudstate-operator
+        app.kubernetes.io/name: shopping-cart
+    spec:
+      containers:
+      - env:
+        - name: PORT
+          value: "8080"
+        image: coreyauger/shopping-cart:latest
+        imagePullPolicy: Always
+        name: user-function
+        ports:
+        - containerPort: 8080
+          name: user-port
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      - env:
+        - name: USER_FUNCTION_PORT
+          value: "8080"
+        - name: REMOTING_PORT
+          value: "2552"
+        - name: MANAGEMENT_PORT
+          value: "8558"
+        - name: HTTP_PORT
+          value: "8013"
+        - name: SELECTOR_LABEL
+          value: app.kubernetes.io/name
+        - name: SELECTOR_LABEL_VALUE
+          value: shopping-cart
+        - name: REQUIRED_CONTACT_POINT_NR
+          value: "1"
+        - name: JAVA_OPTS
+          value: -Xms256m -Xmx256m
+        - name: POSTGRES_SERVICE
+          valueFrom:
+            secretKeyRef:
+              key: instanceIP
+              name: postgres-cnx-shopping-postgres5
+        - name: POSTGRES_DATABASE
+          value: shopping
+        - name: POSTGRES_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: postgres-creds-shopping-cart
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: postgres-creds-shopping-cart
+        image: coreyauger/cloudstate-proxy-postgres:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /alive
+            port: 8558
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: cloudstate-sidecar
+        ports:
+        - containerPort: 8013
+          name: grpc-http-proxy
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /ready
+            port: 8558
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            cpu: 400m
+            memory: 512Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          name: service-account-token
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: cloudstate-pod-service-account
+      serviceAccountName: cloudstate-pod-service-account
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: service-account-token
+        secret:
+          defaultMode: 420
+          secretName: cloudstate-pod-service-account-token
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2020-03-05T19:44:22Z"
+    lastUpdateTime: "2020-03-05T19:44:22Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2020-03-05T19:44:01Z"
+    lastUpdateTime: "2020-03-05T19:44:22Z"
+    message: ReplicaSet "shopping-cart-77c5d7cf4b" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
