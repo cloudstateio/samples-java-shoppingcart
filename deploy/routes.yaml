@@ -1,4 +1,4 @@
-# Route for friends app
+# Route for shopping cart app
 apiVersion: cloudstate.io/v1alpha1
 kind: Route
 metadata:
