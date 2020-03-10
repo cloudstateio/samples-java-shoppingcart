@@ -10,11 +10,10 @@ spec:
     - uri:
         prefix: "/com.example.shoppingcart.ShoppingCart/"
     route:
-      service: shopping-cart2
+      service: shopping-cart
   - name: "frontend-routes"
     match:
     - uri:
         prefix: "/"
     route:
       service: frontend      
-
