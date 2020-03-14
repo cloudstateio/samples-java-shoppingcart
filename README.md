@@ -29,9 +29,9 @@ All the latest docker images are available publicly at `lightbend-docker-registr
 To deploy the shopping cart application as is, connect to your kubernetes environment and do the following.
 
 ### Storage Setup
-* Modify postgres-store.yaml
+* Modify `postgres-store.yaml`
     * Uniquify the store `name`
-* Modify js-shopping-cart.yaml to match
+* Modify `js-shopping-cart.yaml` to match
 *   Change `spec|storeConfig|statefulStore|name` to match the name used above
 
 ### Deployment
