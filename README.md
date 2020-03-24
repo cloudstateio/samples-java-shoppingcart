@@ -28,28 +28,19 @@ All the latest docker images are available publicly at `lightbend-docker-registr
 
 To deploy the shopping cart application as is, connect to your kubernetes environment and do the following.
 
-### Storage Setup
-* Modify `postgres-store.yaml`
-    * Uniquify the store `name`
-* Modify `js-shopping-cart.yaml` to match
-*   Change `spec|storeConfig|statefulStore|name` to match the name used above
-
 ### Deployment
 ```bash
 $ cd deploy
 $ kubectl apply -f . -n <project-name>
-# To Verify
+# verify stateful store
+$ kubectl get -n <project-name> statefulstore
+NAME                  AGE
+shopping-postgres   21m
+# verify stateful services
 $ kubectl -n <project-name>  get statefulservices
 NAME            REPLICAS   STATUS
 frontend        1          Ready
 shopping-cart   1          Ready
-```
-
-To verify the statefulstore use the following:
-```bash
-$ kubectl get statefulstore -n corey-demo2
-NAME                  AGE
-shopping-postgres77   21m
 ```
 
 To access the front end chat interface open a web browser and navigate to:
@@ -109,8 +100,7 @@ statefulservice.cloudstate.io/frontend created
 
 ### Postgres Store
 
-The shopping cart stateful service relies on a stateful store.  The only change required to `postgres-store.yaml` is to give
-the store a unique name.  This is set in the `spec:storeConfig:statefulStore:name` field.
+The shopping cart stateful service relies on a stateful store as defined in `postgres-store.yaml`.
 
 ### Shopping Cart Service
 ```
