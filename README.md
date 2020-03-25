@@ -14,9 +14,6 @@ The following assumes that you have completed the steps for setting up your loca
 * [Creating a Project](https://docs.lbcs.dev/gettingstarted/project.html)
 
 ## Sample application layout
-Grab the sample application from github:
- 
-[https://github.com/lightbend/cloudstate-samples](https://github.com/lightbend/cloudstate-samples)
 
 The sample application consists of 2 services:
 * A stateless service `frontend`
