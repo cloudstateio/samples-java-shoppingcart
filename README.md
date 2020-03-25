@@ -58,7 +58,7 @@ docker push <my-registry>/frontend:latest
 Deploy the image by changing into the deploy folder and editing the `frontend.yaml` to point to your docker image that you just pushed.
 ```
 $ cd ../deploy
-$ cat js-frontend.yaml
+$ cat frontend.yaml
 apiVersion: cloudstate.io/v1alpha1
 kind: StatefulService
 metadata:
@@ -103,7 +103,7 @@ docker push <my-registry>/shopping-cart:latest
 Deploy the image by changing into the deploy folder and editing the `shopping-cart.yaml` to point to your docker image that you just pushed.
 ```
 $ cd ../deploy
-$ cat shopping-cart.yaml
+$ cat js-shopping-cart.yaml
 apiVersion: cloudstate.io/v1alpha1
 kind: StatefulService
 metadata:
