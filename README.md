@@ -26,34 +26,6 @@ Additionally:
 * A `cloudstate` directory that contains proto definitions needed.
 * A `deploy` directory that contains the deployment yaml files.
 
-## Quick Install
-
-All the latest docker images are available publicly at `lightbend-docker-registry.bintray.io/`.
-
-To deploy the shopping cart application as is, connect to your kubernetes environment and do the following.
-
-### Deployment
-```bash
-$ cd deploy
-$ kubectl apply -f . -n <project-name>
-# verify stateful store
-$ kubectl get -n <project-name> statefulstore
-NAME                  AGE
-shopping-postgres   21m
-# verify stateful services
-$ kubectl -n <project-name>  get statefulservices
-NAME            REPLICAS   STATUS
-frontend        1          Ready
-shopping-cart   1          Ready
-```
-
-To access the front end chat interface open a web browser and navigate to:
-
-`https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
-
-If you would like to make changes and build the application, please follow the
-instructions in the section below.
-
 ## Building and deploying the Sample application
 
 ### Frontend Service
@@ -77,6 +49,8 @@ docker build . -t <my-registry>/frontend:latest
 ```
 
 Push the docker image to the registry
+
+NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 ```
 docker push <my-registry>/frontend:latest
 ```
@@ -120,6 +94,8 @@ docker build . -t <my-registry>/shopping-cart:latest
 ```
 
 Push the docker image to the registry
+
+NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 ```
 docker push <my-registry>/shopping-cart:latest
 ```
@@ -203,6 +179,31 @@ Open a web browser and navigate to:
 `https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
 
 You should now see the shopping cart interface.
+
+## Quick Install
+
+All the latest docker images are available publicly at `lightbend-docker-registry.bintray.io/`.
+
+To deploy the shopping cart application as is, connect to your kubernetes environment and do the following.
+
+### Deployment
+```bash
+$ cd deploy
+$ kubectl apply -f . -n <project-name>
+# verify stateful store
+$ kubectl get -n <project-name> statefulstore
+NAME                  AGE
+shopping-postgres   21m
+# verify stateful services
+$ kubectl -n <project-name>  get statefulservices
+NAME            REPLICAS   STATUS
+frontend        1          Ready
+shopping-cart   1          Ready
+```
+
+To access the front end chat interface open a web browser and navigate to:
+
+`https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
 
 ## Maintenance notes
 
