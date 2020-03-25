@@ -78,6 +78,12 @@ statefulservice.cloudstate.io/frontend created
 
 The shopping cart stateful service relies on a stateful store as defined in `postgres-store.yaml`.
 
+Deploy the store to your project namespace
+```
+$ kubectl apply -f postgres-store.yaml -n <project-name>
+statefulstore.cloudstate.io/shopping-cart created
+````
+
 ### Shopping Cart Service
 ```
 cd ../js-shopping-cart
@@ -112,10 +118,10 @@ spec:
     database: shopping
     statefulStore:
       # Name of a deployed Datastore to use.
-      name: shopping-postgres77     # <-- Change to match the name of the postgres-store
+      name: shopping-postgres77
   containers:
-  - image: coreyauger/shopping-cart:latest    # <-- Change this to your image
-    name: shopping-cart
+    - image: coreyauger/shopping-cart:latest
+      name: js-shopping-cart
 ```
 
 Deploy the service to your project namespace
