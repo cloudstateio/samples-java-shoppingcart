@@ -7,7 +7,7 @@ The following assumes that you have completed the steps for setting up your loca
    * as well as the [Developer prerequisites](https://docs.lbcs.dev/developing/developing.html#prerequisites)
    * Install [npm](https://www.npmjs.com/get-npm) (node package manager)
    * You also need to install the protobuf compiler.
-        * Mac OS X `brew install protobuff`
+        * Mac OS X `brew install protobuf`
         * linux `sudo apt install protobuf-compiler`
         * Or [alternatively](https://developers.google.com/protocol-buffers/docs/downloads) (src and bins)
 * [Your Lightbend Cloudstate Account](https://docs.lbcs.dev/gettingstarted/account.html)
