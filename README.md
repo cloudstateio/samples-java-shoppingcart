@@ -41,13 +41,14 @@ npm run-script build
 This will compile the protobuf and `user-function.desc`.
 
 Build a docker image with the right registry and tag
+
+NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 ```
 docker build . -t <my-registry>/frontend:latest
 ```
 
 Push the docker image to the registry
 
-NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 ```
 docker push <my-registry>/frontend:latest
 ```
@@ -86,13 +87,13 @@ npm run prestart
 
 This will compile the protobuf and `user-function.desc`
 Build a docker image with the right registry and tag
+
+NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 ```
 docker build . -t <my-registry>/shopping-cart:latest
 ```
 
 Push the docker image to the registry
-
-NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 ```
 docker push <my-registry>/shopping-cart:latest
 ```
