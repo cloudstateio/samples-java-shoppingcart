@@ -118,7 +118,7 @@ spec:
     database: shopping
     statefulStore:
       # Name of a deployed Datastore to use.
-      name: shopping-postgres77
+      name: shopping-postgres
   containers:
     - image: coreyauger/shopping-cart:latest
       name: js-shopping-cart
