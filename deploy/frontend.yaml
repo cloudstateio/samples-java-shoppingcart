@@ -5,5 +5,5 @@ metadata:
   name: frontend
 spec:
   containers:
-  - image: coreyauger/frontend:latest
+  - image: <your-registry>/frontend:latest
     name: frontend
