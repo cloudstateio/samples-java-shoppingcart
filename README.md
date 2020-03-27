@@ -35,8 +35,8 @@ kubectl apply -f . -n <project-name>
 
 # To Verify
 kubectl -n <project-name>  get statefulservices
-NAME       REPLICAS   STATUS
-shopping-cart-postgres    1          Ready
+NAME            AGE    REPLICAS   STATUS
+shopping-cart   5m     1          Running
 ```
 
 
@@ -151,9 +151,9 @@ statefulservice.cloudstate.io/shopping-cart created
 Check that the services are running
 ```
 $ kubectl get statefulservices -n <project-name>
-NAME             REPLICAS   STATUS
-shopping-cart    1          Ready
-frontend         1          Ready
+NAME            AGE    REPLICAS   STATUS
+shopping-cart   6m     1          Running
+frontend        3m     1          Running
 ```
 
 To redeploy a new image to the cluster you must delete and then redeploy using the yaml file.  
@@ -217,9 +217,9 @@ NAME                  AGE
 shopping-store   21m
 # verify stateful services
 $ kubectl -n <project-name>  get statefulservices
-NAME            REPLICAS   STATUS
-frontend        1          Ready
-shopping-cart   1          Ready
+NAME            AGE    REPLICAS   STATUS
+shopping-cart   7m     1          Running
+frontend        4m     1          Running
 ```
 
 To access the front end chat interface open a web browser and navigate to:
