@@ -23,6 +23,23 @@ Additionally:
 * A `cloudstate` directory that contains proto definitions needed.
 * A `deploy` directory that contains the deployment yaml files.
 
+### Quick Install
+
+All the latest docker images are available publicly at `lightbend-docker-registry.bintray.io/cloudstate-samples`.
+
+To deploy the shopping-cart application as is, connect to your kubernetes environment and do the following.
+
+```bash
+cd deploy
+kubectl apply -f . -n <project-name>
+
+# To Verify
+kubectl -n <project-name>  get statefulservices
+NAME       REPLICAS   STATUS
+shopping-cart-postgres    1          Ready
+```
+
+
 ## Building and deploying the Sample application
 
 ### Frontend Service
@@ -63,7 +80,7 @@ metadata:
   name: frontend
 spec:
   containers:
-  - image: coreyauger/frontend:latest    # <-- Change this to your image
+  - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest # <-- Change this to your repo/image
     name: frontend
 ```
 
@@ -74,14 +91,14 @@ statefulservice.cloudstate.io/frontend created
 ````
 
 
-### Postgres Store
+### Stateful Store
 
-The shopping cart stateful service relies on a stateful store as defined in `postgres-store.yaml`.
+The shopping cart stateful service relies on a stateful store as defined in `shopping-store.yaml`.
 
 Deploy the store to your project namespace
 ```
-$ kubectl apply -f postgres-store.yaml -n <project-name>
-statefulstore.cloudstate.io/shopping-cart created
+$ kubectl apply -f shopping-store.yaml -n <project-name>
+statefulstore.cloudstate.io/shopping-store created
 ````
 
 ### Shopping Cart Service
@@ -104,7 +121,7 @@ Push the docker image to the registry
 docker push <my-registry>/shopping-cart:latest
 ```
 
-Deploy the image by changing into the deploy folder and editing the `shopping-cart.yaml` to point to your docker image that you just pushed.
+Deploy the image by changing into the deploy folder and editing `js-shopping-cart.yaml` to point to the docker image that you just pushed.
 ```
 $ cd ../deploy
 $ cat js-shopping-cart.yaml
@@ -118,9 +135,9 @@ spec:
     database: shopping
     statefulStore:
       # Name of a deployed Datastore to use.
-      name: shopping-postgres
+      name: shopping-store
   containers:
-    - image: coreyauger/shopping-cart:latest
+    - image:  lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest # <-- Change this to your repo/image
       name: js-shopping-cart
 ```
 
@@ -136,7 +153,7 @@ Check that the services are running
 $ kubectl get statefulservices -n <project-name>
 NAME             REPLICAS   STATUS
 shopping-cart    1          Ready
-frontent         1          Ready
+frontend         1          Ready
 ```
 
 To redeploy a new image to the cluster you must delete and then redeploy using the yaml file.  
@@ -197,7 +214,7 @@ $ kubectl apply -f . -n <project-name>
 # verify stateful store
 $ kubectl get -n <project-name> statefulstore
 NAME                  AGE
-shopping-postgres   21m
+shopping-store   21m
 # verify stateful services
 $ kubectl -n <project-name>  get statefulservices
 NAME            REPLICAS   STATUS
