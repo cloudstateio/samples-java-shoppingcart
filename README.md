@@ -23,6 +23,23 @@ Additionally:
 * A `cloudstate` directory that contains proto definitions needed.
 * A `deploy` directory that contains the deployment yaml files.
 
+### Quick Install
+
+All the latest docker images are available publicly at `lightbend-docker-registry.bintray.io/cloudstate-samples`.
+
+To deploy the shopping-cart application as is, connect to your kubernetes environment and do the following.
+
+```bash
+cd deploy
+kubectl apply -f . -n <project-name>
+
+# To Verify
+kubectl -n <project-name>  get statefulservices
+NAME       REPLICAS   STATUS
+shopping-cart-postgres    1          Ready
+```
+
+
 ## Building and deploying the Sample application
 
 ### Frontend Service
@@ -63,7 +80,7 @@ metadata:
   name: frontend
 spec:
   containers:
-  - image: <your-registry>/frontend:latest    # <-- Change this to your repo/image
+  - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest # <-- Change this to your repo/image
     name: frontend
 ```
 
@@ -120,7 +137,7 @@ spec:
       # Name of a deployed Datastore to use.
       name: shopping-store
   containers:
-    - image: <your-registry>/shopping-cart:latest    # <-- Change this to your repo/image
+    - image:  lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest # <-- Change this to your repo/image
       name: js-shopping-cart
 ```
 
