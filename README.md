@@ -50,12 +50,23 @@ This service makes `grpc-web` calls directly to the other services to get the da
 ```
 cd frontend
 npm install
+```
+This will install your dependencies, including cloudstate javascript client library.
+```
 ./protogen.sh
+```
+protogen shell script will collect the required proto files and generate `grpc-web` clients for both typescript and javascript.  
+These files will appear under the `src/_proto` directory
+```
 npm run prestart
+```
+The prestart script will run the `compile-descriptor` located in the cloudstate client library using your 
+service definition `shop.proto` outputting `user-function.desc`.  
+```
 npm run-script build
 ```
-
-This will compile the protobuf and `user-function.desc`.
+Finally the build script will compile the typescript and javascript into a webpack bundle.js file.  This contains the code 
+for your web front end.
 
 Build a docker image with the right registry and tag
 
@@ -107,8 +118,8 @@ cd ../js-shopping-cart
 npm install
 npm run prestart
 ```
+For this service there is no web front end, so we only need to compile the `shoppingcart.proto` into the `user-function.desc`.
 
-This will compile the protobuf and `user-function.desc`
 Build a docker image with the right registry and tag
 
 NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
