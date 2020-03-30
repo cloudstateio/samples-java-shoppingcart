@@ -61,7 +61,7 @@ These files will appear under the `src/_proto` directory
 npm run prestart
 ```
 The prestart script will run the `compile-descriptor` located in the cloudstate cliuent library using your 
-service definition `shop.proto` outputing `user-function.desc`.  
+service definition `shop.proto` outputting `user-function.desc`.  
 ```
 npm run-script build
 ```
