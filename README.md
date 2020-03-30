@@ -120,7 +120,6 @@ npm run prestart
 ```
 For this service there is no web front end, so we only need to compile the `shoppingcart.proto` into the `user-function.desc`.
 
-This will compile the protobuf and `user-function.desc`
 Build a docker image with the right registry and tag
 
 NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
