@@ -32,15 +32,20 @@ All the latest docker images are available publicly at `lightbend-docker-registr
 To deploy the shopping-cart application as is, connect to your kubernetes environment and do the following.
 
 ```bash
-cd deploy
-kubectl apply -f . -n <project-name>
-
-# To Verify
-kubectl -n <project-name>  get statefulservices
+$ cd deploy
+$ kubectl apply -f . -n <project-name>
+# verify stateful store
+$ kubectl get -n <project-name> statefulstore
+NAME                  AGE
+shopping-store   21m
+# verify stateful services
+$ kubectl -n <project-name>  get statefulservices
 NAME            AGE    REPLICAS   STATUS
-shopping-cart   5m     1          Running
+shopping-cart   7m     1          Running
+frontend        4m     1          Running
 ```
 
+`https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
 
 ## Building and deploying the Sample application
 
@@ -213,31 +218,6 @@ Open a web browser and navigate to:
 `https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
 
 You should now see the shopping cart interface.
-
-## Quick Install
-
-All the latest docker images are available publicly at `lightbend-docker-registry.bintray.io/`.
-
-To deploy the shopping cart application as is, connect to your kubernetes environment and do the following.
-
-### Deployment
-```bash
-$ cd deploy
-$ kubectl apply -f . -n <project-name>
-# verify stateful store
-$ kubectl get -n <project-name> statefulstore
-NAME                  AGE
-shopping-store   21m
-# verify stateful services
-$ kubectl -n <project-name>  get statefulservices
-NAME            AGE    REPLICAS   STATUS
-shopping-cart   7m     1          Running
-frontend        4m     1          Running
-```
-
-To access the front end chat interface open a web browser and navigate to:
-
-`https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
 
 ## Maintenance notes
 
