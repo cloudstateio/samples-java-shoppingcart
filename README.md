@@ -1,19 +1,9 @@
 
 # Cloudstate Sample Shopping Cart Application
 
-The following assumes that you have completed the steps for setting up your local environment as well as creating an account and project.  If you have not done this you must follow the instructions here:
+# Prerequisites
 
-* [Setting Up your Machine](https://docs.lbcs.dev/gettingstarted/setup.html)
-   * as well as the [Developer prerequisites](https://docs.lbcs.dev/developing/developing.html#prerequisites)
-   * Install [npm](https://www.npmjs.com/get-npm) (node package manager)
-      * We recommend v6.14.3 or later.  (Check with `npm -v`)
-   * You also need to install the protobuf compiler.
-      * We recommend using v3.0.0 or later.  (Check with `protoc --version`)
-      * Mac OS X `brew install protobuf`
-      * linux `sudo apt install protobuf-compiler`
-      * Or [alternatively](https://developers.google.com/protocol-buffers/docs/downloads) (src and bins)
-* [Your Lightbend Cloudstate Account](https://docs.lbcs.dev/gettingstarted/account.html)
-* [Creating a Project](https://docs.lbcs.dev/gettingstarted/project.html)
+First make sure [your local environment is setup appropriately](cloudstate-samples#prerequisites).
 
 ## Sample application layout
 
@@ -215,7 +205,7 @@ kubectl apply -f routes.yaml -n <project-name>
 
 Open a web browser and navigate to:
 
-`https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
+`https://<project-name>.us-east1.apps.lbcs.io/pages/index.html`
 
 You should now see the shopping cart interface.
 
