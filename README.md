@@ -3,7 +3,7 @@
 
 # Prerequisites
 
-First make sure [your local environment is setup appropriately](../#prerequisites).
+First make sure [your local environment is setup appropriately](../README.md#prerequisites).
 
 ## Sample application layout
 
