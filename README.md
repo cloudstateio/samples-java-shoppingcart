@@ -3,7 +3,7 @@
 
 # Prerequisites
 
-First make sure [your local environment is setup appropriately](cloudstate-samples#prerequisites).
+First make sure [your local environment is setup appropriately](../#prerequisites).
 
 ## Sample application layout
 
@@ -46,6 +46,8 @@ This service makes `grpc-web` calls directly to the other services to get the da
 
 ```
 cd frontend
+nvm install
+nvm use
 npm install
 ```
 This will install your dependencies, including cloudstate javascript client library.
@@ -112,6 +114,8 @@ statefulstore.cloudstate.io/shopping-store created
 ### Shopping Cart Service
 ```
 cd ../js-shopping-cart
+nvm install
+nvm use
 npm install
 npm run prestart
 ```
