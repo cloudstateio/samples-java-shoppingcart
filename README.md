@@ -98,7 +98,7 @@ Deploy the service to your project namespace
 ```
 kubectl apply -f frontend.yaml -n <project_name>
 statefulservice.cloudstate.io/frontend created
-````
+```
 
 
 ### Stateful Store
@@ -109,7 +109,7 @@ Deploy the store to your project namespace
 ```
 $ kubectl apply -f shopping-store.yaml -n <project-name>
 statefulstore.cloudstate.io/shopping-store created
-````
+```
 
 ### Shopping Cart Service
 ```
@@ -157,7 +157,7 @@ Deploy the service to your project namespace
 ```
 $ kubectl apply -f js-shopping-cart.yaml -n <project-name>
 statefulservice.cloudstate.io/shopping-cart created
-````
+```
 
 ### Verify they are running
 Check that the services are running
@@ -170,12 +170,12 @@ frontend        3m     1          Running
 
 To redeploy a new image to the cluster you must delete and then redeploy using the yaml file.  
 For example if we updated the shopping-cart docker image we would do the following.
-````
+```
 $ kubectl delete statefulservice shopping-cart -n <project-name>
 statefulservice.cloudstate.io "shopping-cart" deleted
 $ kubectl apply -f js-shopping-cart.yaml -n <project-name>    
 statefulservice.cloudstate.io/shopping-cart created
-````
+```
 
 ## Routes
 The last thing that is required is to provide the public routes needed for both the front end and grpc-web calls.  These exist in the `routes.yaml` file.
