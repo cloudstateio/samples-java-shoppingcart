@@ -12,4 +12,4 @@ spec:
       name: shopping-store
   containers:
     - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest
-      name: js-shopping-cart
+      name: shopping-cart
