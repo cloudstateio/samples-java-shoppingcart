@@ -9,7 +9,7 @@ First make sure [your local environment is setup appropriately](../README.md#pre
 
 The sample application consists of 2 services:
 * A stateless service `frontend`
-* A stateful Entity based service `js-shopping-cart`
+* A stateful Entity based service `shopping-cart`
 
 Additionally:
 * A `cloudstate` directory that contains proto definitions needed.
@@ -113,7 +113,7 @@ statefulstore.cloudstate.io/shopping-store created
 
 ### Shopping Cart Service
 ```
-cd ../js-shopping-cart
+cd ../shopping-cart
 nvm install
 nvm use
 npm install
