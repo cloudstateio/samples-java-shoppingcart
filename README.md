@@ -114,23 +114,31 @@ statefulstore.cloudstate.io/shopping-store created
 ### Shopping Cart Service
 ```
 cd ../shopping-cart
-nvm install
-nvm use
-npm install
-npm run prestart
 ```
-For this service there is no web front end, so we only need to compile the `shoppingcart.proto` into the `user-function.desc`.
 
-Build a docker image with the right registry and tag
+Edit `jib` section of `build.gradle` to specify the right registry and tag for the container image
+```
+jib {
+  from {
+    image = "adoptopenjdk/openjdk8:debian"
+  }
+  to {
+    image = "<my-registry>/shopping-cart"
+    tags = ["latest"]
+  }
+  container {
+    mainClass = "io.cloudstate.samples.shoppingcart.Main"
+    ports = ["8080"]
+  }
+}
+```
+You might also want to set up authentication for your container registry. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#authentication-methods) for further information.
 
 NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
-```
-docker build . -t <my-registry>/shopping-cart:latest
-```
 
-Push the docker image to the registry
+Build and push the container image to your container registry
 ```
-docker push <my-registry>/shopping-cart:latest
+./gradlew build jib
 ```
 
 Deploy the image by changing into the deploy folder and editing `js-shopping-cart.yaml` to point to the docker image that you just pushed.
