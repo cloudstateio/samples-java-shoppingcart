@@ -216,7 +216,7 @@ You should now see the shopping cart interface.
 ## Maintenance notes
 
 ### License
-The license is Apache 2.0, see [LICENSE-2.0.txt](LICENSE-2.0.txt).
+The license is Apache 2.0, see [LICENSE](LICENSE).
 
 ### Maintained by
 __This project is NOT supported under the Lightbend subscription.__
