@@ -40,49 +40,23 @@ frontend        4m     1          Running
 ## Building and deploying the Sample application
 
 ### Frontend Service
-The frontend service is a front end web application written in typescript.  It is backed by a `stateless` service that will serve the compiled javacript, html and images.
 
-This service makes `grpc-web` calls directly to the other services to get the data that it needs.  In order to do this we need to compile the proto definitions from the other services as well as generate the grpc-web clients.  This is all done with a shell script `protogen.sh`.  Let's first run the protogen script, then compile the service definition and finally compile our typescript.
+The frontend service is a front end web application written in typescript. It is backed by a `stateless` service that will serve the compiled javacript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
 
-```
-cd frontend
-nvm install
-nvm use
-npm install
-```
-This will install your dependencies, including cloudstate javascript client library.
-```
-./protogen.sh
-```
-protogen shell script will collect the required proto files and generate `grpc-web` clients for both typescript and javascript.  
-These files will appear under the `src/_proto` directory
-```
-npm run prestart
-```
-The prestart script will run the `compile-descriptor` located in the cloudstate client library using your 
-service definition `shop.proto` outputting `user-function.desc`.  
-```
-npm run-script build
-```
-Finally the build script will compile the typescript and javascript into a webpack bundle.js file.  This contains the code 
-for your web front end.
+#### Getting container image ready
 
-Build a docker image with the right registry and tag
+You can use pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at Lightbend Cloudstate samples repository.
 
-NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
-```
-docker build . -t <my-registry>/frontend:latest
-```
+Alternatively, you can clone [cloudstateio/samples-ui-shoppingcart](https://github.com/cloudstateio/samples-ui-shoppingcart) repository and follow the instructions there to build an image and deploy it to your own container repository.
 
-Push the docker image to the registry
+#### Deploying the frontend service
 
+Change into the `deploy` folder
 ```
-docker push <my-registry>/frontend:latest
+$ cd deploy
 ```
-
-Deploy the image by changing into the deploy folder and editing the `frontend.yaml` to point to your docker image that you just pushed.
+If you have built your own container image, edit the `frontend.yaml` to point to the image that you just pushed.
 ```
-$ cd ../deploy
 $ cat frontend.yaml
 apiVersion: cloudstate.io/v1alpha1
 kind: StatefulService
