@@ -112,9 +112,12 @@ statefulstore.cloudstate.io/shopping-store created
 ```
 
 ### Shopping Cart Service
+
 ```
 cd ../shopping-cart
 ```
+
+#### Building a container image
 
 Edit `jib` section of `build.gradle` to specify the right registry and tag for the container image
 ```
@@ -140,6 +143,10 @@ Build and push the container image to your container registry
 ```
 ./gradlew build jib
 ```
+
+NOTE: This command builds and pushes the image directly to a container repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
+
+#### Deploying the service
 
 Deploy the image by changing into the deploy folder and editing `shopping-cart.yaml` to point to the docker image that you just pushed.
 ```
