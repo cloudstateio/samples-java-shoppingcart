@@ -3,7 +3,15 @@
 
 # Prerequisites
 
-First make sure [your local environment is setup appropriately](../README.md#prerequisites).
+The following assumes that you have completed the steps for setting up your local environment as well as creating an account and project.  If you have not done this you must follow the instructions here:
+
+* [Setting Up your Machine](https://docs.lbcs.dev/gettingstarted/setup.html)
+   * Install JDK (Java Development Kit) version 8 or later.
+      * We recommend OpenJDK 1.8.0_252 or later. (Check with `java -version`)
+      * [SdkMan](https://sdkman.io/) provides convenient way to install and manage multiple Software Development Kits including JDK.
+      * Alternatively, Windows, MacOS X, and Linux installer packages are available from [AdoptOpenJDK](https://adoptopenjdk.net/installation.html#installers).
+* [Your Lightbend Cloudstate Account](https://docs.lbcs.dev/gettingstarted/account.html)
+* [Creating a Project](https://docs.lbcs.dev/gettingstarted/project.html)
 
 ## Sample application layout
 
