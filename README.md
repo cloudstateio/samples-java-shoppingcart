@@ -17,7 +17,7 @@ The following assumes that you have completed the steps for setting up your loca
 
 The sample application consists of 2 services:
 * A stateless service `frontend`
-* A stateful Entity based service `js-shopping-cart`
+* A stateful Entity based service `shopping-cart`
 
 Additionally:
 * A `cloudstate` directory that contains proto definitions needed.
@@ -94,31 +94,46 @@ statefulstore.cloudstate.io/shopping-store created
 ```
 
 ### Shopping Cart Service
-```
-cd ../js-shopping-cart
-nvm install
-nvm use
-npm install
-npm run prestart
-```
-For this service there is no web front end, so we only need to compile the `shoppingcart.proto` into the `user-function.desc`.
 
-Build a docker image with the right registry and tag
+```
+cd ../shopping-cart
+```
+
+#### Building a container image
+
+Edit `jib` section of `build.gradle` to specify the right registry and tag for the container image
+```
+jib {
+  from {
+    image = "adoptopenjdk/openjdk8:debian"
+  }
+  to {
+    image = "<my-registry>/shopping-cart"
+    tags = ["latest"]
+  }
+  container {
+    mainClass = "io.cloudstate.samples.shoppingcart.Main"
+    ports = ["8080"]
+  }
+}
+```
+You might also want to set up authentication for your container registry. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#authentication-methods) for further information.
 
 NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
+
+Build and push the container image to your container registry
 ```
-docker build . -t <my-registry>/shopping-cart:latest
+./gradlew build jib
 ```
 
-Push the docker image to the registry
-```
-docker push <my-registry>/shopping-cart:latest
-```
+NOTE: This command builds and pushes the image directly to a container repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
 
-Deploy the image by changing into the deploy folder and editing `js-shopping-cart.yaml` to point to the docker image that you just pushed.
+#### Deploying the service
+
+Deploy the image by changing into the deploy folder and editing `shopping-cart.yaml` to point to the docker image that you just pushed.
 ```
 $ cd ../deploy
-$ cat js-shopping-cart.yaml
+$ cat shopping-cart.yaml
 apiVersion: cloudstate.io/v1alpha1
 kind: StatefulService
 metadata:
@@ -132,12 +147,12 @@ spec:
       name: shopping-store
   containers:
     - image:  lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest # <-- Change this to your repo/image
-      name: js-shopping-cart
+      name: shopping-cart
 ```
 
 Deploy the service to your project namespace
 ```
-$ kubectl apply -f js-shopping-cart.yaml -n <project-name>
+$ kubectl apply -f shopping-cart.yaml -n <project-name>
 statefulservice.cloudstate.io/shopping-cart created
 ```
 
@@ -155,7 +170,7 @@ For example if we updated the shopping-cart docker image we would do the followi
 ```
 $ kubectl delete statefulservice shopping-cart -n <project-name>
 statefulservice.cloudstate.io "shopping-cart" deleted
-$ kubectl apply -f js-shopping-cart.yaml -n <project-name>    
+$ kubectl apply -f shopping-cart.yaml -n <project-name>
 statefulservice.cloudstate.io/shopping-cart created
 ```
 
