@@ -49,13 +49,13 @@ frontend        4m     1          Running
 
 ### Frontend Service
 
-The frontend service is a front end web application written in typescript. It is backed by a `stateless` service that will serve the compiled javacript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
+The `frontend` service is a frontend web application written in TypeScript. It is backed by a `stateless` service that will serve the compiled JavaScript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
 
 #### Getting container image ready
 
-You can use pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at Lightbend Cloudstate samples repository.
+You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at Lightbend Cloudstate samples repository.
 
-Alternatively, you can clone [cloudstateio/samples-ui-shoppingcart](https://github.com/cloudstateio/samples-ui-shoppingcart) repository and follow the instructions there to build an image and deploy it to your own container repository.
+Alternatively, you can clone the [cloudstateio/samples-ui-shoppingcart](https://github.com/cloudstateio/samples-ui-shoppingcart) repository and follow the instructions there to build an image and deploy it to your own container image repository.
 
 #### Deploying the frontend service
 
@@ -126,7 +126,7 @@ Build and push the container image to your container registry
 ./gradlew build jib
 ```
 
-NOTE: This command builds and pushes the image directly to a container repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
+NOTE: This command builds and pushes the image directly to a container image repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
 
 #### Deploying the service
 
@@ -166,7 +166,7 @@ frontend        3m     1          Running
 ```
 
 To redeploy a new image to the cluster you must delete and then redeploy using the yaml file.  
-For example if we updated the shopping-cart docker image we would do the following.
+For example, if we updated the shopping-cart docker image we would do the following.
 ```
 $ kubectl delete statefulservice shopping-cart -n <project-name>
 statefulservice.cloudstate.io "shopping-cart" deleted
@@ -175,7 +175,7 @@ statefulservice.cloudstate.io/shopping-cart created
 ```
 
 ## Routes
-The last thing that is required is to provide the public routes needed for both the front end and grpc-web calls.  These exist in the `routes.yaml` file.
+The last thing that is required is to provide the public routes needed for both the frontend and grpc-web calls.  These exist in the `routes.yaml` file.
 
 ```
 $ cat routes.yaml
