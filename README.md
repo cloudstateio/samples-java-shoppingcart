@@ -59,6 +59,12 @@ Alternatively, you can clone the [cloudstateio/samples-ui-shoppingcart](https://
 
 #### Deploying the frontend service
 
+##### Lightbend Cloudstate
+```
+csctl services deploy frontend lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest
+```
+
+##### Self-hosted Open-source Cloudstate
 Change into the `deploy` folder
 ```
 $ cd deploy
@@ -87,6 +93,12 @@ statefulservice.cloudstate.io/frontend created
 
 The shopping cart stateful service relies on a stateful store as defined in `shopping-store.yaml`.
 
+##### Lightbend Cloudstate
+```
+csctl stores deploy shopping-store
+```
+
+##### Self-hosted Open-source Cloudstate
 Deploy the store to your project namespace
 ```
 $ kubectl apply -f shopping-store.yaml -n <project-name>
@@ -130,6 +142,12 @@ NOTE: This command builds and pushes the image directly to a container image rep
 
 #### Deploying the service
 
+##### Lightbend Cloudstate
+```
+csctl services deploy shopping-cart vkorenev/shopping-cart:java-0.1 --with-store shopping-store
+```
+
+##### Self-hosted Open-source Cloudstate
 Deploy the image by changing into the deploy folder and editing `shopping-cart.yaml` to point to the docker image that you just pushed.
 ```
 $ cd ../deploy
@@ -158,6 +176,13 @@ statefulservice.cloudstate.io/shopping-cart created
 
 ### Verify they are running
 Check that the services are running
+
+##### Lightbend Cloudstate
+```
+csctl services get
+```
+
+##### Self-hosted Open-source Cloudstate
 ```
 $ kubectl get statefulservices -n <project-name>
 NAME            AGE    REPLICAS   STATUS
@@ -177,6 +202,8 @@ statefulservice.cloudstate.io/shopping-cart created
 ## Routes
 The last thing that is required is to provide the public routes needed for both the frontend and grpc-web calls.  These exist in the `routes.yaml` file.
 
+##### Lightbend Cloudstate
+*TODO this no longer works since kubectl is not supposed to be used anymore*
 ```
 $ cat routes.yaml
 apiVersion: cloudstate.io/v1alpha1
@@ -204,11 +231,20 @@ Add these routes by performing
 kubectl apply -f routes.yaml -n <project-name>
 ```
 
+Then expose your frontend
+```
+csctl services expose frontend
+```
+In the output, watch for the hostname assigned to the frontend.
+
 Open a web browser and navigate to:
 
-`https://<project-name>.us-east1.apps.lbcs.io/pages/index.html`
+`https://<frontend-hostname>/pages/index.html`
 
 You should now see the shopping cart interface.
+
+##### Self-hosted Open-source Cloudstate
+*TODO add instructions for setting up routing*
 
 ## Maintenance notes
 
