@@ -1,108 +1,42 @@
-
 # Cloudstate Sample Shopping Cart Application
 
-# Prerequisites
-
-The following assumes that you have completed the steps for setting up your local environment as well as creating an account and project.  If you have not done this you must follow the instructions here:
-
-* [Setting Up your Machine](https://docs.lbcs.dev/gettingstarted/setup.html)
-   * Install JDK (Java Development Kit) version 8 or later.
-      * We recommend OpenJDK 1.8.0_252 or later. (Check with `java -version`)
-      * [SdkMan](https://sdkman.io/) provides convenient way to install and manage multiple Software Development Kits including JDK.
-      * Alternatively, Windows, MacOS X, and Linux installer packages are available from [AdoptOpenJDK](https://adoptopenjdk.net/installation.html#installers).
-* [Your Lightbend Cloudstate Account](https://docs.lbcs.dev/gettingstarted/account.html)
-* [Creating a Project](https://docs.lbcs.dev/gettingstarted/project.html)
-
-## Sample application layout
+## Sample application structure
 
 The sample application consists of 2 services:
 * A stateless service `frontend`
-* A stateful Entity based service `shopping-cart`
+* A stateful entity-based service `shopping-cart`
 
-Additionally:
-* A `cloudstate` directory that contains proto definitions needed.
-* A `deploy` directory that contains the deployment yaml files.
+## Building container images
 
-### Quick Install
+All the latest container images are available publicly at `lightbend-docker-registry.bintray.io/cloudstate-samples`. But feel free to build your own images from sources.
 
-All the latest docker images are available publicly at `lightbend-docker-registry.bintray.io/cloudstate-samples`.
+### Frontend service
 
-To deploy the shopping-cart application as is, connect to your kubernetes environment and do the following.
-
-```bash
-$ cd deploy
-$ kubectl apply -f . -n <project-name>
-# verify stateful store
-$ kubectl get -n <project-name> statefulstore
-NAME                  AGE
-shopping-store   21m
-# verify stateful services
-$ kubectl -n <project-name>  get statefulservices
-NAME            AGE    REPLICAS   STATUS
-shopping-cart   7m     1          Running
-frontend        4m     1          Running
-```
-
-`https://<project-name>.us-east1.apps.lbcs.dev/pages/index.html`
-
-## Building and deploying the Sample application
-
-### Frontend Service
-
-The `frontend` service is a frontend web application written in TypeScript. It is backed by a `stateless` service that will serve the compiled JavaScript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
-
-#### Getting container image ready
+The `frontend` service is a frontend web application written in TypeScript.
+It is backed by a `stateless` service that will serve the compiled JavaScript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
 
 You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at Lightbend Cloudstate samples repository.
 
 Alternatively, you can clone the [cloudstateio/samples-ui-shoppingcart](https://github.com/cloudstateio/samples-ui-shoppingcart) repository and follow the instructions there to build an image and deploy it to your own container image repository.
 
-#### Deploying the frontend service
+### Shopping cart service
 
-Change into the `deploy` folder
-```
-$ cd deploy
-```
-If you have built your own container image, edit the `frontend.yaml` to point to the image that you just pushed.
-```
-$ cat frontend.yaml
-apiVersion: cloudstate.io/v1alpha1
-kind: StatefulService
-metadata:
-  name: frontend
-spec:
-  containers:
-  - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest # <-- Change this to your repo/image
-    name: frontend
-```
+You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest` container image available at Lightbend Cloudstate samples repository.
 
-Deploy the service to your project namespace
-```
-kubectl apply -f frontend.yaml -n <project_name>
-statefulservice.cloudstate.io/frontend created
-```
+Alternatively, you can build an image from the sources in the `shopping-cart` directory and push it to your own container image repository.
 
+#### Prerequisites
 
-### Stateful Store
-
-The shopping cart stateful service relies on a stateful store as defined in `shopping-store.yaml`.
-
-Deploy the store to your project namespace
-```
-$ kubectl apply -f shopping-store.yaml -n <project-name>
-statefulstore.cloudstate.io/shopping-store created
-```
-
-### Shopping Cart Service
-
-```
-cd ../shopping-cart
-```
+* Install JDK (Java Development Kit) version 8 or later.
+  * We recommend OpenJDK 1.8.0_252 or later. (Check with `java -version`)
+  * [SdkMan](https://sdkman.io/) provides convenient way to install and manage multiple Software Development Kits including JDK.
+  * Alternatively, Windows, MacOS X, and Linux installer packages are available from [AdoptOpenJDK](https://adoptopenjdk.net/installation.html#installers).
 
 #### Building a container image
 
 Edit `jib` section of `build.gradle` to specify the right registry and tag for the container image
-```
+
+```groovy
 jib {
   from {
     image = "adoptopenjdk/openjdk8:debian"
@@ -117,6 +51,7 @@ jib {
   }
 }
 ```
+
 You might also want to set up authentication for your container registry. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#authentication-methods) for further information.
 
 NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
@@ -128,87 +63,125 @@ Build and push the container image to your container registry
 
 NOTE: This command builds and pushes the image directly to a container image repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
 
-#### Deploying the service
+## Deploying to Lightbend Cloudstate
 
-Deploy the image by changing into the deploy folder and editing `shopping-cart.yaml` to point to the docker image that you just pushed.
-```
-$ cd ../deploy
-$ cat shopping-cart.yaml
-apiVersion: cloudstate.io/v1alpha1
-kind: StatefulService
-metadata:
-  name: shopping-cart
-spec:
-  # Datastore configuration
-  storeConfig:
-    database: shopping
-    statefulStore:
-      # Name of a deployed Datastore to use.
-      name: shopping-store
-  containers:
-    - image:  lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest # <-- Change this to your repo/image
-      name: shopping-cart
+The following steps use `csctl` to deploy the application to [Ligtbend Cloudstate](https://docs.lbcs.io/).
+
+If you're self-hosting Cloudstate, the instructions for deploying the sample shopping cart application are in the [`deploy` directory](./deploy/README.md)
+
+### Prerequisites
+
+* Get [Your Lightbend Cloudstate Account](https://docs.lbcs.io/gettingstarted/account.html)
+* Install [csctl](https://docs.lbcs.io/getting-started/set-up-development-env.html)
+
+### Login to Lightbend Cloudstate
+
+```shell
+$ csctl auth login
 ```
 
-Deploy the service to your project namespace
-```
-$ kubectl apply -f shopping-cart.yaml -n <project-name>
-statefulservice.cloudstate.io/shopping-cart created
+### Create a new project
+
+```shell
+$ csctl projects new sample-shopping-cart "Shopping Cart Sample"
 ```
 
-### Verify they are running
-Check that the services are running
-```
-$ kubectl get statefulservices -n <project-name>
-NAME            AGE    REPLICAS   STATUS
-shopping-cart   6m     1          Running
-frontend        3m     1          Running
+Wait until you receive an email approving your project!
+
+List projects:
+
+```shell
+$ csctl projects list
 ```
 
-To redeploy a new image to the cluster you must delete and then redeploy using the yaml file.  
-For example, if we updated the shopping-cart docker image we would do the following.
-```
-$ kubectl delete statefulservice shopping-cart -n <project-name>
-statefulservice.cloudstate.io "shopping-cart" deleted
-$ kubectl apply -f shopping-cart.yaml -n <project-name>
-statefulservice.cloudstate.io/shopping-cart created
+You should see the project listed:
+
+```shell
+  NAME                   DESCRIPTION            STATUS   ID
+  sample-shopping-cart   Shopping Cart Sample   active   39ad1d96-466a-4d07-b826-b30509bda21b
 ```
 
-## Routes
-The last thing that is required is to provide the public routes needed for both the frontend and grpc-web calls.  These exist in the `routes.yaml` file.
+You can change the current project:
 
-```
-$ cat routes.yaml
-apiVersion: cloudstate.io/v1alpha1
-kind: Route
-metadata:
-  name: "shopping-routes"
-spec:
-  http:
-  - name: "shopping-routes"
-    match:
-    - uri:
-        prefix: "/com.example.shoppingcart.ShoppingCart/"
-    route:
-      service: shopping-cart
-  - name: "frontend-routes"
-    match:
-    - uri:
-        prefix: "/"
-    route:
-      service: frontend     
+```shell
+$ csctl config set project 39ad1d96-466a-4d07-b826-b30509bda21b
 ```
 
-Add these routes by performing
+### Deploy the frontend service
+
+A pre-build container image of the frontend service is provided as `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend`.
+If you have built your own container image, change the image in the following command to point to the one that you just pushed.
+
+```shell
+$ csctl svc deploy frontend lightbend-docker-registry.bintray.io/cloudstate-samples/frontend
 ```
-kubectl apply -f routes.yaml -n <project-name>
+
+### Create the store
+
+The shopping cart stateful service relies on a stateful store. Create the store with the following command:
+
+```shell
+$ csctl store deploy shopping-store
 ```
 
-Open a web browser and navigate to:
+Wait for the store to be created
 
-`https://<project-name>.us-east1.apps.lbcs.io/pages/index.html`
+```shell
+$ watch csctl stores get
+```
 
-You should now see the shopping cart interface.
+Proceed when `STATUS` is `ready`, this can take some time.
+
+### Deploying the shopping cart service
+
+A pre-build container image of the frontend service is provided as `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart`.
+If you have built your own container image, change the image in the following command to point to the one that you just pushed.
+
+```shell
+$ csctl svc deploy \
+    shopping-cart \
+    lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart \
+    --with-store shopping-store
+```
+
+Wait for the shopping cart service `STATUS` to be `ready`.
+
+```shell
+$ watch csctl svc get
+```
+
+### Expose the frontend service
+
+```shell
+$ csctl svc expose frontend
+```
+
+The output will look like this:
+
+```shell
+Service 'frontend' was successfully exposed at: small-fire-5330.us-east1.apps.lbcs.io
+```
+
+Make a note of the hostname since it will be used to expose other services on the same host.
+
+### Expose the shopping-cart service
+
+```shell
+$ csctl svc expose shopping-cart \
+  --hostname small-fire-5330.us-east1.apps.lbcs.io \
+  --uri-prefix=/com.example.shoppingcart.ShoppingCart/
+```
+
+### Visit the deployed shopping-cart frontend
+
+The sample shopping cart is live. The frontend lives on the hostname previously
+generated when deploying the frontend. Append `/pages/index.html` to the
+provided hostname to see the shopping-cart frontend.
+
+In the example above, the URL would be:
+```
+https://small-fire-5330.us-east1.apps.lbcs.io/pages/index.html
+```
 
 ## Maintenance notes
 
