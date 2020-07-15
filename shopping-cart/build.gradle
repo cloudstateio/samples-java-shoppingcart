@@ -10,7 +10,7 @@ repositories {
 }
 
 group = "com.example"
-version = "0.1"
+version = "0.1.0"
 
 dependencies {
   implementation "io.cloudstate:cloudstate-java-support:0.4.7"
@@ -32,8 +32,8 @@ jib {
     image = "adoptopenjdk/openjdk8:debian"
   }
   to {
-    image = "lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart"
-    tags = ["java-" + version]
+    image = "lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java"
+    tags = [version]
   }
   container {
     mainClass = "io.cloudstate.samples.shoppingcart.Main"

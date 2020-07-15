@@ -11,5 +11,5 @@ spec:
       # Name of a deployed Datastore to use.
       name: shopping-store
   containers:
-    - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest
+    - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java:latest
       name: shopping-cart
