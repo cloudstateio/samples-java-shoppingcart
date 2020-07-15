@@ -35,7 +35,7 @@ metadata:
   name: frontend
 spec:
   containers:
-  - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest # <-- Change this to your repo/image
+  - image: lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java:latest # <-- Change this to your repo/image
     name: frontend
 ```
 

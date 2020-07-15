@@ -21,7 +21,7 @@ Alternatively, you can clone the [cloudstateio/samples-ui-shoppingcart](https://
 
 ### Shopping cart service
 
-You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart:latest` container image available at Lightbend Cloudstate samples repository.
+You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java:latest` container image available at Lightbend Cloudstate samples repository.
 
 Alternatively, you can build an image from the sources in the `shopping-cart` directory and push it to your own container image repository.
 
@@ -42,8 +42,8 @@ jib {
     image = "adoptopenjdk/openjdk8:debian"
   }
   to {
-    image = "<my-registry>/shopping-cart"
-    tags = ["latest"]
+    image = "<my-registry>/shopping-cart-java"
+    tags = [version]
   }
   container {
     mainClass = "io.cloudstate.samples.shoppingcart.Main"
@@ -134,13 +134,13 @@ Proceed when `STATUS` is `ready`, this can take some time.
 
 ### Deploying the shopping cart service
 
-A pre-build container image of the frontend service is provided as `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart`.
+A pre-build container image of the shopping cart service is provided as `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java`.
 If you have built your own container image, change the image in the following command to point to the one that you just pushed.
 
 ```shell
 $ csctl svc deploy \
     shopping-cart \
-    lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart \
+    lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java \
     --with-store shopping-store
 ```
 
