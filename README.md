@@ -124,10 +124,10 @@ The shopping cart stateful service relies on a stateful store. Create the store 
 $ csctl store deploy shopping-store
 ```
 
-Wait for the store to be created
+Wait for the store to be created. Check the store status with
 
 ```shell
-$ watch csctl stores get
+$ csctl stores get
 ```
 
 Proceed when `STATUS` is `ready`, this can take some time.
@@ -147,7 +147,7 @@ $ csctl svc deploy \
 Wait for the shopping cart service `STATUS` to be `ready`.
 
 ```shell
-$ watch csctl svc get
+$ csctl svc get
 ```
 
 ### Expose the frontend service
