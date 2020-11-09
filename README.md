@@ -65,16 +65,16 @@ NOTE: This command builds and pushes the image directly to a container image rep
 
 ## Deploying to Akka Serverless
 
-The following steps use `csctl` to deploy the application to [Akka Serverless](https://docs.cloudstate.io/).
+The following steps use `csctl` to deploy the application to [Akka Serverless](https://docs.cloudstate.com/).
 
 If you're writing Cloudstate services to deploy on your own Kubernetes cluster, the instructions for deploying the sample shopping cart application are in the [`deploy` directory](./deploy/README.md)
 
 ### Prerequisites
 
-* Get [Your Lightbend Cloudstate Account](https://docs.cloudstate.io/gettingstarted/account.html)
-* Install [csctl](https://docs.cloudstate.io/getting-started/set-up-development-env.html)
+* Get [Your Lightbend Cloudstate Account](https://docs.cloudstate.com/getting-started/lightbend-account.html)
+* Install [csctl](https://docs.cloudstate.com/getting-started/set-up-development-env.html)
 
-### Login to Lightbend Cloudstate
+### Login to Akka Serverless
 
 ```shell
 $ csctl auth login
