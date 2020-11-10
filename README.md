@@ -63,24 +63,24 @@ Build and push the container image to your container registry
 
 NOTE: This command builds and pushes the image directly to a container image repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
 
-## Deploying to Lightbend Cloudstate
+## Deploying to Akka Serverless
 
-The following steps use `csctl` to deploy the application to [Lightbend Cloudstate](https://docs.lbcs.io/).
+The following steps use `csctl` to deploy the application to [Akka Serverless](https://docs.cloudstate.com/).
 
-If you're self-hosting Cloudstate, the instructions for deploying the sample shopping cart application are in the [`deploy` directory](./deploy/README.md)
+If you're writing Cloudstate services to deploy on your own Kubernetes cluster, the instructions for deploying the sample shopping cart application are in the [`deploy` directory](./deploy/README.md)
 
 ### Prerequisites
 
-* Get [Your Lightbend Cloudstate Account](https://docs.lbcs.io/gettingstarted/account.html)
-* Install [csctl](https://docs.lbcs.io/getting-started/set-up-development-env.html)
+* Get [Your Lightbend Cloudstate Account](https://docs.cloudstate.com/getting-started/lightbend-account.html)
+* Install [csctl](https://docs.cloudstate.com/getting-started/set-up-development-env.html)
 
-### Login to Lightbend Cloudstate
+### Login to Akka Serverless
 
 ```shell
 $ csctl auth login
 ```
 
-### Create a new project
+### Create a new Akka Serverless project
 
 ```shell
 $ csctl projects new sample-shopping-cart "Shopping Cart Sample"
