@@ -65,25 +65,25 @@ NOTE: This command builds and pushes the image directly to a container image rep
 
 ## Deploying to Akka Serverless
 
-The following steps use `csctl` to deploy the application to [Akka Serverless](https://docs.cloudstate.com/).
+The following steps use `akkasls` to deploy the application to [Akka Serverless](https://docs.cloudstate.com/).
 
 If you're writing Cloudstate services to deploy on your own Kubernetes cluster, the instructions for deploying the sample shopping cart application are in the [`deploy` directory](./deploy/README.md)
 
 ### Prerequisites
 
 * Get [Your Lightbend Cloudstate Account](https://docs.cloudstate.com/getting-started/lightbend-account.html)
-* Install [csctl](https://docs.cloudstate.com/getting-started/set-up-development-env.html)
+* Install [akkasls](https://docs.cloudstate.com/getting-started/set-up-development-env.html)
 
 ### Login to Akka Serverless
 
 ```shell
-$ csctl auth login
+$ akkasls auth login
 ```
 
 ### Create a new Akka Serverless project
 
 ```shell
-$ csctl projects new sample-shopping-cart "Shopping Cart Sample"
+$ akkasls projects new sample-shopping-cart "Shopping Cart Sample"
 ```
 
 Wait until you receive an email approving your project!
@@ -91,7 +91,7 @@ Wait until you receive an email approving your project!
 List projects:
 
 ```shell
-$ csctl projects list
+$ akkasls projects list
 ```
 
 You should see the project listed:
@@ -104,7 +104,7 @@ You should see the project listed:
 You can change the current project:
 
 ```shell
-$ csctl config set project sample-shopping-cart
+$ akkasls config set project sample-shopping-cart
 ```
 
 ### Deploy the frontend service
@@ -113,7 +113,7 @@ A pre-built container image of the frontend service is provided as `lightbend-do
 If you have built your own container image, change the image in the following command to point to the one that you just pushed.
 
 ```shell
-$ csctl svc deploy frontend lightbend-docker-registry.bintray.io/cloudstate-samples/frontend
+$ akkasls svc deploy frontend lightbend-docker-registry.bintray.io/cloudstate-samples/frontend
 ```
 
 ### Deploying the shopping cart service
@@ -122,20 +122,20 @@ A pre-built container image of the shopping cart service is provided as `lightbe
 If you have built your own container image, change the image in the following command to point to the one that you just pushed.
 
 ```shell
-$ csctl svc deploy shopping-cart \
+$ akkasls svc deploy shopping-cart \
     lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java
 ```
 
 Wait for the shopping cart service `STATUS` to be `ready`.
 
 ```shell
-$ csctl svc get
+$ akkasls svc get
 ```
 
 ### Expose the frontend service
 
 ```shell
-$ csctl svc expose frontend
+$ akkasls svc expose frontend
 ```
 
 The output will look like this:
@@ -149,7 +149,7 @@ Make a note of the hostname since it will be used to expose other services on th
 ### Expose the shopping-cart service
 
 ```shell
-$ csctl svc expose shopping-cart \
+$ akkasls svc expose shopping-cart \
   --hostname small-fire-5330.us-east1.apps.lbcs.io \
   --uri-prefix=/com.example.shoppingcart.ShoppingCart/
 ```
