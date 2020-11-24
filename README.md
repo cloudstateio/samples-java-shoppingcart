@@ -132,26 +132,19 @@ Wait for the shopping cart service `STATUS` to be `ready`.
 $ akkasls svc get
 ```
 
-### Expose the frontend service
+### Frontend service
 
-```shell
-$ akkasls svc expose frontend
-```
+The `frontend` service is a frontend web application written in TypeScript.
+It is backed by a `stateless` service that will serve the compiled JavaScript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
 
-The output will look like this:
+You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at the Lightbend Cloudstate samples repository.
 
-```shell
-Service 'frontend' was successfully exposed at: small-fire-5330.us-east1.apps.lbcs.io
-```
-
-Make a note of the hostname since it will be used to expose other services on the same host.
+Alternatively, you can clone the [cloudstateio/samples-ui-shoppingcart](https://github.com/cloudstateio/samples-ui-shoppingcart) repository and follow the instructions there to build an image and deploy it to your own container image repository.
 
 ### Expose the shopping-cart service
 
 ```shell
-$ akkasls svc expose shopping-cart \
-  --hostname small-fire-5330.us-east1.apps.lbcs.io \
-  --uri-prefix=/com.example.shoppingcart.ShoppingCart/
+$ akkasls svc expose shopping-cart --enable-cors
 ```
 
 ### Visit the deployed shopping-cart frontend
