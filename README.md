@@ -135,7 +135,7 @@ $ akkasls svc get
 ### Frontend service
 
 The `frontend` service is a frontend web application written in TypeScript.
-It is backed by a `stateless` service that will serve the compiled JavaScript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
+It is backed by a _stateless_ service that will serve the compiled JavaScript, HTML and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
 
 You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at the Lightbend Cloudstate samples repository.
 
