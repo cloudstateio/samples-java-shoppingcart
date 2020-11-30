@@ -15,13 +15,13 @@ All the latest container images are available publicly at `lightbend-docker-regi
 The `frontend` service is a frontend web application written in TypeScript.
 It is backed by a `stateless` service that will serve the compiled JavaScript, html and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
 
-You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at the Lightbend Cloudstate samples repository.
+You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image.
 
 Alternatively, you can clone the [cloudstateio/samples-ui-shoppingcart](https://github.com/cloudstateio/samples-ui-shoppingcart) repository and follow the instructions there to build an image and deploy it to your own container image repository.
 
 ### Shopping cart service
 
-You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java:latest` container image available at the Lightbend Cloudstate samples repository.
+You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/shopping-cart-java:latest` container image.
 
 Alternatively, you can build an image from the sources in the `shopping-cart` directory and push it to your own container image repository.
 
@@ -71,7 +71,7 @@ If you're writing Cloudstate services to deploy on your own Kubernetes cluster, 
 
 ### Prerequisites
 
-* Get [Your Lightbend Cloudstate Account](https://docs.cloudstate.com/getting-started/lightbend-account.html)
+* Get [Your Akka Serverless Account](https://docs.cloudstate.com/getting-started/lightbend-account.html)
 * Install [akkasls](https://docs.cloudstate.com/getting-started/set-up-development-env.html)
 
 ### Login to Akka Serverless
@@ -137,7 +137,7 @@ $ akkasls svc get
 The `frontend` service is a frontend web application written in TypeScript.
 It is backed by a _stateless_ service that will serve the compiled JavaScript, HTML and images. This service makes `grpc-web` calls directly to the other services to get the data that it needs.
 
-You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image available at the Lightbend Cloudstate samples repository.
+You can use the pre-built `lightbend-docker-registry.bintray.io/cloudstate-samples/frontend:latest` container image.
 
 Alternatively, you can clone the [cloudstateio/samples-ui-shoppingcart](https://github.com/cloudstateio/samples-ui-shoppingcart) repository and follow the instructions there to build an image and deploy it to your own container image repository.
 
