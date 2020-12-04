@@ -33,6 +33,7 @@ Alternatively, you can build an image from the sources in the `shopping-cart` di
   * Alternatively, Windows, MacOS X, and Linux installer packages are available from [AdoptOpenJDK](https://adoptopenjdk.net/installation.html#installers).
 
 #### Building a container image
+##### Option 1: Using gradle
 
 Edit `jib` section of `build.gradle` to specify the right registry and tag for the container image
 
@@ -62,6 +63,41 @@ Build and push the container image to your container registry
 ```
 
 NOTE: This command builds and pushes the image directly to a container image repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
+
+##### Option 2: Using maven
+1. modify maven config file `shopping-cart/pom.xml`
+Please modify your docker repo, and generated tag accordingly.
+If you use original setting without any change, it generates image `my-docker-repo/shopping-cart-java:my-tag`
+```
+<image>
+  <!-- Please change it to your docker repository info -->
+  <name>my-docker-repo/shopping-cart-java:%l</name>
+  <build>
+    <!-- Base docker image -->
+    <from>adoptopenjdk/openjdk8:alpine-jre</from>
+    <tags>
+      <!-- tag for generated image -->
+      <tag>my-tag</tag>
+    </tags>
+```
+2. run the following command to compile proto/java files and generates docker image
+```
+cd shopping-cart
+mvn package
+```
+3. run command `docker images | head` to make sure the docker image is generated  correctly.
+4. (Optional) you can test your image loading in your local docker by command
+```
+docker run my-docker-repo/shopping-cart-java:my-tag
+```
+You should see the server loads without error.
+5. push your docker image to your docker repo. The commands are
+```
+docker login
+docker tag <src_image_with_tag> <destination_image_with_tag>
+docker push
+```
+NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 
 ## Deploying to Akka Serverless
 
