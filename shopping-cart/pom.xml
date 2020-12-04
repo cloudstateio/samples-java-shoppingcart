@@ -93,17 +93,17 @@
         <configuration>
           <images>
             <image>
-              <!-- Please change it to your docker repository info -->
+              <!-- Please change it to your Docker repository info -->
               <name>my-docker-repo/shopping-cart-java:%l</name>
               <build>
-                <!-- Base docker image contains jre-->
+                <!-- Base Docker image which contains jre-->
                 <from>adoptopenjdk/openjdk8:alpine-jre</from>
                 <tags>
                   <!-- tag for generated image -->
                   <tag>my-tag</tag>
                 </tags>
                 <ports>
-                  <!-- expose port in docker container -->
+                  <!-- expose port in Docker container -->
                   <port>8080</port>
                 </ports>
                 <assembly>
