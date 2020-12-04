@@ -80,21 +80,27 @@ If you use original setting without any change, it generates image `my-docker-re
       <tag>my-tag</tag>
     </tags>
 ```
+
 2. run the following command to compile proto/java files and generates docker image
 ```
 cd shopping-cart
 mvn package
 ```
 3. run command `docker images | head` to make sure the docker image is generated  correctly.
+
 4. (Optional) you can test your image loading in your local docker by command
 ```
 docker run my-docker-repo/shopping-cart-java:my-tag
 ```
 You should see the server loads without error.
+
 5. push your docker image to your docker repo. The commands are
 ```
 docker login
-docker tag <src_image_with_tag> <destination_image_with_tag>
+
+# re-tag image if needed
+docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]   
+
 docker push
 ```
 NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
