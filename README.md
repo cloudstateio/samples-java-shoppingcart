@@ -72,7 +72,7 @@ If you use original setting without any change, it generates image `my-docker-re
   <!-- Please change it to your Docker repository info -->
   <name>my-docker-repo/shopping-cart-java:%l</name>
   <build>
-    <!-- Base docker image -->
+    <!-- Base Docker image -->
     <from>adoptopenjdk/openjdk8:alpine-jre</from>
     <tags>
       <!-- tag for generated image -->

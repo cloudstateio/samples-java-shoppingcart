@@ -44,7 +44,7 @@
         </executions>
       </plugin>
 
-      <!-- provides the jars of the classpath as properties inside of maven
+      <!-- provides the jars of the classpath as properties inside of Maven
            so that we can refer to one of the jars in the exec plugin config below -->
       <!--plugin>
         <artifactId>maven-dependency-plugin</artifactId>
