@@ -33,8 +33,9 @@ Alternatively, you can build an image from the sources in the `shopping-cart` di
   * Alternatively, Windows, MacOS X, and Linux installer packages are available from [AdoptOpenJDK](https://adoptopenjdk.net/installation.html#installers).
 
 #### Building a container image
+##### Option 1: Using Gradle Build Tool
 
-Edit `jib` section of `build.gradle` to specify the right registry and tag for the container image
+Edit the `jib` section of `build.gradle` to specify your registry and the tag for the container image.
 
 ```groovy
 jib {
@@ -54,7 +55,7 @@ jib {
 
 You might also want to set up authentication for your container registry. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#authentication-methods) for further information.
 
-NOTE: you can get a free public docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
+NOTE: you can get a free public Docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
 
 Build and push the container image to your container registry
 ```
@@ -62,6 +63,49 @@ Build and push the container image to your container registry
 ```
 
 NOTE: This command builds and pushes the image directly to a container image repository bypassing local Docker (if it is present). However, it is possible to build the image using [Docker](https://www.docker.com/) with `./gradlew build jibDockerBuild`. Please refer to [Jib plugin documentation](https://github.com/GoogleContainerTools/jib/tree/master/jib-gradle-plugin#build-to-docker-daemon) for further information.
+
+##### Option 2: Using Maven
+1. Modify the Maven config file `shopping-cart/pom.xml` as shown below. Use the location of your Docker repository and the correct tag.
+If you use original setting without any change, it generates image `my-docker-repo/shopping-cart-java:my-tag`
+```
+<image>
+  <!-- Please change it to your Docker repository info -->
+  <name>my-docker-repo/shopping-cart-java:%l</name>
+  <build>
+    <!-- Base Docker image -->
+    <from>adoptopenjdk/openjdk8:alpine-jre</from>
+    <tags>
+      <!-- tag for generated image -->
+      <tag>my-tag</tag>
+    </tags>
+```
+
+2. Run the following command to compile proto/java files and generates Docker image
+```
+cd shopping-cart
+mvn package
+```
+3. Run command `docker images | head` to make sure the Docker image is generated  correctly.
+
+4. (Optional) you can test your image loading in your local Docker by command
+```
+docker run my-docker-repo/shopping-cart-java:my-tag
+```
+You should see the server loads without error.
+
+5. Push your Docker image to your Docker repo.
+NOTE: you can get a free public Docker registry by signing up at [https://hub.docker.com](https://hub.docker.com/)
+
+The commands are
+```
+docker login
+
+# re-tag image if needed
+docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]   
+
+docker push
+```
+
 
 ## Deploying to Akka Serverless
 
