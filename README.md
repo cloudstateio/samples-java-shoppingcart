@@ -6,6 +6,15 @@ The sample application consists of two services:
 * A stateless service `frontend`
 * A stateful entity-based service `shopping-cart`
 
+## IDE setup
+
+Eclipse, IntelliJ and VS Code are able to be used to maintain this project. With Eclipse and VS Code, it is important that the `mvn generate-sources` goal is run
+on loading the project for the first time, and whenever a `.proto` file is changed. Various plugins are available for editing `.proto` files. For example, Eclipse
+offers the "protobuf-dt" plugin. 
+
+When using a protobuf editor you may need to specify additional folders for importing. These folders can be found under the
+`target/protoc-dependencies` e.g. `target/protoc-dependencies/092fbd08ada464f00abcb68216d1faaa` and similar folders.
+
 ## Building container images
 
 All the latest container images are available publicly at `lightbend-docker-registry.bintray.io/cloudstate-samples`. Feel free to build your own images from sources.
