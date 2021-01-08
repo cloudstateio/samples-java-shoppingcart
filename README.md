@@ -12,7 +12,7 @@ Eclipse, IntelliJ and VS Code are able to be used to maintain this project. With
 on loading the project for the first time, and whenever a `.proto` file is changed. Various plugins are available for editing `.proto` files. For example, Eclipse
 offers the "protobuf-dt" plugin. 
 
-When using a protobuf editor you may need to specify additional folders for importing. These folders can be found under the
+When using a protobuf editor you may need to specify additional folders for importing so that an editor can avoid highlighting errors. These folders can be found under the
 `target/protoc-dependencies` e.g. `target/protoc-dependencies/092fbd08ada464f00abcb68216d1faaa` and similar folders.
 
 ## Building container images

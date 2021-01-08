@@ -4,3 +4,8 @@
 .project
 .settings/
 build/
+bin/
+.idea/
+.vscode/
+target/
+*.iml
